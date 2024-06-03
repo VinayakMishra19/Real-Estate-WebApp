@@ -144,9 +144,25 @@ export default function Profile() {
     }
   };
 
+  const handleDeleteListing = async (e) =>{
+     try {
+       const res = await fetch(`/api/listing/delete/${e}`, {
+        method: 'DELETE',
+       });
+      const data = await res.json();
+      if(data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserListings((prev) => prev.filter((listing) => listing._id !== e));
+     } catch (error) {
+      console.log(error.message);
+     }
+  }
+
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
+      <h1 className="text-3xl font-semibold text-center my-6">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input
           onChange={(e) => setFile(e.target.files[0])}
@@ -260,7 +276,7 @@ export default function Profile() {
                 <p>{listing.name}</p>
               </Link>
               <div className="flex flex-col items-center">
-                <button className="text-red-700 uppercase">Delete</button>
+                <button onClick={()=>handleDeleteListing(listing._id)} className="text-red-700 uppercase">Delete</button>
                 <button className="text-green-700 uppercase">Edit</button>
               </div>
             </div>
