@@ -7,45 +7,44 @@ import "swiper/css/bundle";
 import ListingItem from "../components/Listingitem";
 
 export default function Home() {
-  const [offerListing, setOfferListing] = useState([]);
-  const [saleListing, setSaleListing] = useState([]);
-  const [rentListing, setRentListing] = useState([]);
+  const [offerListings, setOfferListings] = useState([]);
+  const [saleListings, setSaleListings] = useState([]);
+  const [rentListings, setRentListings] = useState([]);
   SwiperCore.use([Navigation]);
-  console.log(offerListing);
+  console.log(offerListings);
   useEffect(() => {
-    const fetchOfferListing = async () => {
+    const fetchOfferListings = async () => {
       try {
-        const res = await fetch('/api/listing/get?offer=true&limit=4');
+        const res = await fetch("/api/listing/get?offer=true&limit=4");
         const data = await res.json();
-        setOfferListing(data);
-        fetchRentListing();
+        setOfferListings(data);
+        fetchRentListings();
       } catch (error) {
         console.log(error);
       }
     };
-    const fetchRentListing = async () => {
+    const fetchRentListings = async () => {
       try {
-        const res = await fetch('/api/listing/get?type=rent&limit=4');
+        const res = await fetch("/api/listing/get?type=rent&limit=4");
         const data = await res.json();
-        setRentListing(data);
-        fetchSaleListing();
+        setRentListings(data);
+        fetchSaleListings();
       } catch (error) {
         console.log(error);
       }
     };
 
-    const fetchSaleListing = async () => {
+    const fetchSaleListings = async () => {
       try {
-        const res = await fetch('/api/listing/get?type=sale&limit=4');
+        const res = await fetch("/api/listing/get?type=sale&limit=4");
         const data = await res.json();
-        setSaleListing(data);
+        setSaleListings(data);
       } catch (error) {
         log(error);
       }
     };
-    fetchOfferListing();
+    fetchOfferListings();
   }, []);
-
   return (
     <div className="">
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto h-full">
@@ -71,9 +70,9 @@ export default function Home() {
       </div>
 
       <Swiper navigation>
-        {offerListing &&
-          offerListing.length > 0 &&
-          offerListing.map((listing) => (
+        {offerListings &&
+          offerListings.length > 0 &&
+          offerListings.map((listing) => (
             <SwiperSlide>
               <div
                 style={{
@@ -87,8 +86,10 @@ export default function Home() {
           ))}
       </Swiper>
 
-      <div className="max-w-6xl mx-auto p-3 flex flex-wrap gap-8 my-10">
-        {offerListing && offerListing.length > 0 && (
+      {/* listing results for offer, sale and rent */}
+
+      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
+        {offerListings && offerListings.length > 0 && (
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
@@ -102,14 +103,13 @@ export default function Home() {
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">
-              {offerListing.map((listing) => (
+              {offerListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
             </div>
           </div>
         )}
-
-        {rentListing && rentListing.length > 0 && (
+        {rentListings && rentListings.length > 0 && (
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
@@ -123,14 +123,13 @@ export default function Home() {
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">
-              {rentListing.map((listing) => (
+              {rentListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
             </div>
           </div>
         )}
-
-        {saleListing && saleListing.length > 0 && (
+        {saleListings && saleListings.length > 0 && (
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
@@ -144,7 +143,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">
-              {saleListing.map((listing) => (
+              {saleListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
             </div>
