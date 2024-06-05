@@ -11,12 +11,11 @@ export default function Home() {
   const [saleListing, setSaleListing] = useState([]);
   const [rentListing, setRentListing] = useState([]);
   SwiperCore.use([Navigation]);
-
   console.log(offerListing);
   useEffect(() => {
     const fetchOfferListing = async () => {
       try {
-        const res = await fetch("/api/listing/get?offer=true&limit=4");
+        const res = await fetch('/api/listing/get?offer=true&limit=4');
         const data = await res.json();
         setOfferListing(data);
         fetchRentListing();
@@ -26,7 +25,7 @@ export default function Home() {
     };
     const fetchRentListing = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=rent&limit=4");
+        const res = await fetch('/api/listing/get?type=rent&limit=4');
         const data = await res.json();
         setRentListing(data);
         fetchSaleListing();
@@ -34,13 +33,14 @@ export default function Home() {
         console.log(error);
       }
     };
+
     const fetchSaleListing = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=sale&limit=4");
+        const res = await fetch('/api/listing/get?type=sale&limit=4');
         const data = await res.json();
         setSaleListing(data);
       } catch (error) {
-        console.log(error);
+        log(error);
       }
     };
     fetchOfferListing();
